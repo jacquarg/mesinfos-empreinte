@@ -1,0 +1,22 @@
+{
+  "name": "cozy-api",
+  "version": "0.0.1",
+  "description": "La description de votre application",
+  "main": "server.js",
+  "dependencies": {
+    "americano": "~0.3.0",
+    "americano-cozy": "~0.2.0",
+    "ejs": "~0.8.4",
+    "cozy-realtime-adapter": "~0.11.0",
+    "async": "~0.2.9",
+    "request-json": "=0.3.0"
+  },
+  
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": "https://github.com/jsilvestre/cozy-api",
+  "author": "Cozycloud",
+  "readmeFilename": "README.md",
+  "cozy-permissions": {}
+}

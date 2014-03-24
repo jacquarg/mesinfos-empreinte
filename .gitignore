@@ -1,0 +1,6 @@
+logs
+deploy_config.coffee
+node_modules
+npm-debug.log
+
+*.swp
