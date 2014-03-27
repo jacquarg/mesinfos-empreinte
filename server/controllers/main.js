@@ -1,38 +1,118 @@
 ReuConfig = require('../models/reuconfig');
+GeolocationLog = require('../models/geolocationlog');
+Identity = require('../models/identity');
+Client = require('request-json').JsonClient;
+async = require('async');
 
-module.exports.saveIds = function(req, res) {
-    params = req.body
-    ReuConfig.setConfig(params, function(err) {
+
+var apiHostname = 'http://localhost:9800/';
+
+module.exports.sendData = function(req, res) {
+    conf = req.body
+    
+    // get body data : password.
+    password = req.body.password ; // TODO check password.
+    
+    //
+
+    var sendResponse = function(err) {
         if (err != null) {
             res.send(500, "An error occurred while setting the configuration -- " + err);
         } else {
             res.redirect('back');
         }
-      
-    });
+    };
+
+    var onApiResponse = function(err, response, body) {
+        if (err != null) {
+            console.log(err);
+            console.log(body);
+
+        } else {
+            console.log("toto");
+            ReuConfig.setConfig(conf, sendResponse);
+        };
+    };
+    
+    // get identity,
+    // get all geoloc points
+        geologs: GeolocationLog.allFiltered(function(err, geologs) {
+            //console.log(r);
+            if (err) {
+                console.log(err); //Pass ?
+               // TODO !    
+            }
+            if (geologs.length == 0) {
+                //TODO 
+            } 
+            
+            var res = {
+                //"firstname": r.identity.firstName,
+                //"lastname": r.identity.lastName,
+                "password": conf.password,
+                "msisdn": conf.msisdn,
+                "startdate": geologs[0].timestamp,
+                "enddate": geologs[geologs.length - 1].timestamp,
+                "geolocationlogs": geologs
+            };
+
+
+            // send !
+            var cli = new Client(apiHostname);
+            cli.post('mesinfos/import.php', res, onApiResponse);
+
+        });
+    
+
 };
 
 
 module.exports.home = function(req, res) {
     ReuConfig.getConfig(function(err, doc) {
         if (doc) {
-            doc.mustRegister = false ;
-        } else {
-            doc = {
-                mustRegister: true,
-                login: '',
-                password: '',
-            };
-        }
+           res.render(__dirname + '/../../client/sended.jade', { "conf": doc }, function(err, html) {
+                if (err != null) {
+                    console.log(err);
+                    res.send(500, err);
+                } else {
+                    res.send(200, html);
+                }
+                });
 
-        res.render(__dirname + '/../../client/index.ejs', { "conf": doc }, function(err, html) {
-            if (err != null) {
-                console.log(err);
-                res.send(500, err);
+        } else {
+          async.parallel({
+            identity: Identity.get,
+            msisdn: GeolocationLog.msisdn,
+          },
+          function(err, r) {
+            if (err) {
+              // no data ?
+              res.render(__dirname + "/../../client/nodata.jade", { }, function(err, html) {
+                if (err != null) {
+                    console.log(err);
+                    res.send(500, err);
+                } else {
+                    res.send(200, html);
+                }
+                });
             } else {
-                res.send(200, html);
+              res.render(__dirname + '/../../client/index.jade', 
+                { "conf": 
+                    { lastName: r.identity.lastName, 
+                     firstName: r.identity.firstName,
+                     msisdn: r.msisdn,
+                     }
+                }, function(err, html) {
+                if (err != null) {
+                    console.log(err);
+                    res.send(500, err);
+                } else {
+                    res.send(200, html);
+                }
+            });
             }
-        });
-    });
+          });
+        }
+     });
 };
 

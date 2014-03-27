@@ -1,0 +1,31 @@
+doctype html
+html(lang="fr")
+  head
+    include head
+  body
+    include header
+    .container
+      .jumbotron
+        p Vos données de géolocalisation ont bien été transmises au service Empreinte. Rendez vous sur 
+          a(href="http://empreinte.orange.com") empreinte.orange.com
+          | &nbsp;muni de votre numérp de mobile et de votre mot de passe.
+
+        .form-horizontal
+            
+            .form-group
+              label.col-sm-4.control-label(for="msisdn") Numéro de mobile
+              .col-sm-4
+                input.form-control(type="text", name="msisdn", value="#{conf.msisdn}", readonly="readonly")
+    
+            .form-group
+              label.col-sm-4.control-label(for="password") Mot de passe
+              .col-sm-4
+                input.form-control(id="emppwd", type="password", name="password", value="#{conf.password}", readonly="readonly")
+              .col-sm-2
+                button.btn.btn-info.btn-sm(onclick="getElementById('emppwd').type = 'text';") afficher
+    
+            .form-group
+              .col-sm-offset-4.col-sm-4
+                a.btn.btn-primary.btn-lg(href="http://empreinte.orange.com", target="blank") empreinte.orange.com
+    
+      img(src="img/julien.jpg")

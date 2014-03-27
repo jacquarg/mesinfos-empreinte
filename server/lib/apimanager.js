@@ -17,10 +17,11 @@ module.exports = ApiManager = {
     
     // liez des callbacks aux événements qui vous intéressent
     events: {
-        'receiptdetail.update': 'onInterUpdate',
-        'nomreutilisateur.update': 'onConfigChange', 
+        //'geolocationlog.update': 'onInterUpdate',
+        'empreinte.update': 'onConfigChange', 
     },
     
+
 
     onInterUpdate: function(ev, id) {
         // On obtient le document qui a été mis à jour,
@@ -42,7 +43,7 @@ module.exports = ApiManager = {
             });
     
     },
-
+    
     onConfigChange: function(ev, id) {
         // Répercute le changement de user/mdp.
         // Ne modifiez pas cette ligne sauf si vous savez ce que vous faites

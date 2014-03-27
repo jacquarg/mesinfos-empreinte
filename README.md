@@ -1,6 +1,6 @@
 # Description
 
-An API app to get data to an external service.
+An API app to send data to empreinte.orange.com experimental service.
 
 # Run
 

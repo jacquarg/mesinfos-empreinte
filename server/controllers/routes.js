@@ -5,8 +5,8 @@
 Main = require('./main');
 
 module.exports = {
-    'save-ids': {
-        post: Main.saveIds
+    'senddata': {
+        post: Main.sendData
     }, 
     
     '': {

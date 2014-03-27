@@ -1,0 +1,29 @@
+doctype html
+html(lang="fr")
+  head
+    include head
+  body
+    include header
+    .container
+      .jumbotron
+        p Pour profiter du service Empreinte, vous devez envoyer vos données de géolocalisation. Pour cela, vérifiez votre numéro de mobile et choisissez un mot de passe. Ils vous serviront à vous connecter au service empreinte dès que vos données auront été transmises.
+
+        form.form-horizontal(action="senddata", method="post")
+            input(type="hidden", name="firstName", value="#{conf.identity.firstName}")
+            input(type="hidden", name="lastName", value="#{conf.identity.lastName}")
+            
+            .form-group
+              label.col-sm-4.control-label(for="msisdn") Numéro de mobile
+              .col-sm-4
+                input.form-control(type="text", name="msisdn", value="#{conf.msisdn}", readonly="readonly")
+    
+            .form-group
+              label.col-sm-4.control-label(for="password") Mot de passe
+              .col-sm-4
+                input.form-control(type="password", name="password", placeholder="mot de passe")
+    
+            .form-group
+              .col-sm-offset-4.col-sm-4
+                button.btn.btn-primary.btn-lg(type="submit") Envoyer les données à Empreinte.
+    
+      img(src="img/julien.jpg")
