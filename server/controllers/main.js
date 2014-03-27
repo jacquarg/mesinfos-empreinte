@@ -7,13 +7,33 @@ async = require('async');
 
 var apiHostname = 'http://localhost:9800/';
 
+
+var displayIndex = function(conf, res) {
+    res.render(__dirname + '/../../client/index.jade', { "conf": conf }, function(err, html) {
+        if (err != null) {
+            console.log(err);
+            res.send(500, err);
+        } else {
+            res.send(200, html);
+        }
+   });
+};
+
+
 module.exports.sendData = function(req, res) {
-    conf = req.body
+    var conf = req.body
     
     // get body data : password.
-    password = req.body.password ; // TODO check password.
+    var password = req.body.password ; // TODO check password.
     
+    if (!password || password.length < 4) {
+        var msg = "Veuillez entrer un mot de passe d'au moins 4 caractères.";
+        conf.errorMsg = msg ;
+        // if bad : send + msg !
+        displayIndex(conf, res);
+        return ;
     //
+    }
 
     var sendResponse = function(err) {
         if (err != null) {
@@ -29,7 +49,6 @@ module.exports.sendData = function(req, res) {
             console.log(body);
 
         } else {
-            console.log("toto");
             ReuConfig.setConfig(conf, sendResponse);
         };
     };
@@ -42,9 +61,7 @@ module.exports.sendData = function(req, res) {
                 console.log(err); //Pass ?
                // TODO !    
             }
-            if (geologs.length == 0) {
-                //TODO 
-            } 
+            //if (geologs.length == 0) { // done with get msisdn.
             
             var res = {
                 //"firstname": r.identity.firstName,
@@ -65,7 +82,6 @@ module.exports.sendData = function(req, res) {
     
 
 };
-
 
 module.exports.home = function(req, res) {
     ReuConfig.getConfig(function(err, doc) {
@@ -96,20 +112,22 @@ module.exports.home = function(req, res) {
                 }
                 });
             } else {
-              res.render(__dirname + '/../../client/index.jade', 
-                { "conf": 
+              //res.render(__dirname + '/../../client/index.jade', 
+              //  { "conf": 
+                displayIndex(
                     { lastName: r.identity.lastName, 
                      firstName: r.identity.firstName,
                      msisdn: r.msisdn,
-                     }
-                }, function(err, html) {
-                if (err != null) {
-                    console.log(err);
-                    res.send(500, err);
-                } else {
-                    res.send(200, html);
-                }
-            });
+                     }, res);
+
+              //  }, function(err, html) {
+              //  if (err != null) {
+              //      console.log(err);
+              //      res.send(500, err);
+              //  } else {
+              //      res.send(200, html);
+              //  }
+            //});
             }
           });
         }
