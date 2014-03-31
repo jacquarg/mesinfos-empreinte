@@ -6,7 +6,7 @@ async = require('async');
 
 
 var apiHostname = 'http://localhost:9800/';
-
+var apiHostname = 'http://empreinte.orange.com/';
 
 var displayIndex = function(conf, res) {
     res.render(__dirname + '/../../client/index.jade', { "conf": conf }, function(err, html) {
@@ -34,7 +34,8 @@ module.exports.sendData = function(req, res) {
         return ;
     //
     }
-
+    
+    // Send response in 'res'
     var sendResponse = function(err) {
         if (err != null) {
             res.send(500, "An error occurred while setting the configuration -- " + err);
@@ -42,7 +43,7 @@ module.exports.sendData = function(req, res) {
             res.redirect('back');
         }
     };
-
+    
     var onApiResponse = function(err, response, body) {
         if (err != null) {
             console.log(err);

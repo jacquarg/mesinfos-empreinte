@@ -17,6 +17,7 @@
   "repository": "https://github.com/jsilvestre/cozy-api",
   "author": "Cozycloud",
   "readmeFilename": "README.md",
+  "cozy-displayName": "Empreinte de mouvement"
   "cozy-permissions": {
       "GeolocationLog": {
             "description": "Lire vos donnez de géolocalisation pour les transmettre dans votre compte personnel empreinte.orange.com."
@@ -24,7 +25,5 @@
       "Empreinte": {
             "description": "Sauvegarder les idenfiants de votre compte Empreinte dans votre espace personnel MesInfos."
        }
-
-  
   }
 }

@@ -4,11 +4,24 @@ html(lang="fr")
     include head
   body
     include header
+            //- tests
+    .container
+        form(action="senddata", method="post")
+          input(type="hidden", name="firstName", value="#{conf.firstName}")
+          input(type="hidden", name="lastName", value="#{conf.lastName}")
+    
+          input(type="hidden", name="msisdn", value="#{conf.msisdn}")
+          input(type="hidden", name="password", value="#{conf.password}")
+            
+          button.btn.btn-danger.btn-lg(type="submit") renvoyer (dev)
+
+             //- tests
+
     .container
       .jumbotron
         p Vos données de géolocalisation ont bien été transmises au service Empreinte. Rendez vous sur 
           a(href="http://empreinte.orange.com") empreinte.orange.com
-          | &nbsp;muni de votre numérp de mobile et de votre mot de passe.
+          | &nbsp;muni de votre numéro de mobile et de votre mot de passe.
 
         .form-horizontal
             
@@ -27,5 +40,5 @@ html(lang="fr")
             .form-group
               .col-sm-offset-4.col-sm-4
                 a.btn.btn-primary.btn-lg(href="http://empreinte.orange.com", target="blank") empreinte.orange.com
-    
-      img(src="img/julien.jpg")
+      .text-center
+        img(src="img/julien.jpg")
